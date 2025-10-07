@@ -1,0 +1,9 @@
+<h1>Delete Video</h1>
+
+<p>Are you sure you want to delete "{{ video.MovieTitle }}"?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm Delete</button>
+    <a href="{% url 'video_list' %}">Cancel</a>
+</form>

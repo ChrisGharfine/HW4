@@ -1,0 +1,35 @@
+<h1>Video Inventory</h1>
+
+<a href="{% url 'add_video' %}">Add New Video</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Movie ID</th>
+            <th>Movie Title</th>
+            <th>Director</th>
+            <th>Genre</th>
+            <th>Release Year</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for video in videos %}
+        <tr>
+            <td>{{ video.MovieID }}</td>
+            <td>{{ video.MovieTitle }}</td>
+            <td>{{ video.DirectorName }}</td>
+            <td>{{ video.MovieGenre }}</td>
+            <td>{{ video.ReleaseYear }}</td>
+            <td>
+                <a href="{% url 'update_video' video.MovieID %}">Update</a>
+                <a href="{% url 'delete_video' video.MovieID %}">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No videos in the inventory.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
