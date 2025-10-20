@@ -1,5 +1,10 @@
 <h1>Video Inventory</h1>
 
+<div style="padding:8px;margin:12px 0;background:#eaffea;border:1px solid #b7e1b7;border-radius:6px;">
+  Deployed via Jenkins ✅ {% now "Y-m-d H:i:s" %}
+</div>
+
+
 <a href="{% url 'add_video' %}">Add New Video</a>
 
 <table>
@@ -32,4 +37,5 @@
         </tr>
         {% endfor %}
     </tbody>
+
 </table>
