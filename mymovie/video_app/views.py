@@ -51,4 +51,14 @@ def delete_video(request, pk):
     if request.method == 'POST':
         video.delete()
         return redirect('video_list')
+
     return render(request, 'video_app/delete_video.html', {'video': video})
+
+from django.shortcuts import render
+from .models import Video
+from django.utils import timezone  # ← add this import
+
+def video_list(request):
+    videos = Video.objects.all()
+    ci_banner = f"CI/CD is working ✅ Deployed at {timezone.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    return render(request, 'video_app/video_list.html', {'videos': videos, 'ci_banner': ci_banner})
