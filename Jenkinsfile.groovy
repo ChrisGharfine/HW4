@@ -1,0 +1,26 @@
+pipeline {
+  agent any
+  triggers { pollSCM('H/2 * * * *') } // polls every 2 minutes
+  stages {
+    stage('Checkout') {
+      steps { git branch: 'main', url: 'https://github.com/ChrisGharfine/HW4/tree/main/mymovie' }
+    }
+    stage('Build in Minikube Docker') {
+      steps {
+        bat '''
+        call minikube docker-env --shell=cmd > docker_env.bat
+        call docker_env.bat
+        docker build -t mydjangoapp:latest .
+        '''
+      }
+    }
+    stage('Deploy to Minikube') {
+      steps {
+        bat '''
+        kubectl apply -f deployment.yaml
+        kubectl rollout status deployment/django-deployment
+        '''
+      }
+    }
+  }
+}
