@@ -6,13 +6,15 @@ pipeline {
       steps { git branch: 'main', url: 'https://github.com/ChrisGharfine/HW4' }
     }
     stage('Build in Minikube Docker') {
-      steps {
-        bat '''
-        call minikube docker-env --shell=cmd > docker_env.bat
-        call docker_env.bat
-        docker build -t mydjangoapp:latest .
-        '''
-      }
+  steps {
+    bat '''
+    call minikube docker-env --shell=cmd > docker_env.bat
+    call docker_env.bat
+    docker build -t mydjangoapp:latest ./mymovie
+    '''
+  }
+}
+
     }
     stage('Deploy to Minikube') {
       steps {
@@ -24,4 +26,5 @@ pipeline {
     }
   }
 }
+
 
