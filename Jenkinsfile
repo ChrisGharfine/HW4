@@ -13,7 +13,7 @@ pipeline {
                 bat '''
                 call minikube docker-env --shell=cmd > docker_env.bat
                 call docker_env.bat
-                docker build -t mydjangoapp:latest ./mymovie
+                docker build -t mydjangoapp:latest .
                 '''
             }
         }
@@ -21,8 +21,8 @@ pipeline {
         stage('Deploy to Minikube') {
             steps {
                 bat '''
-                kubectl apply -f ./mymovie/deployment.yaml
-                kubectl apply -f ./mymovie/service.yaml
+                kubectl apply -f deployment.yaml
+                kubectl apply -f service.yaml
                 kubectl rollout status deployment/django-deployment
                 '''
             }
