@@ -1,30 +1,31 @@
 pipeline {
-  agent any
-  triggers { pollSCM('H/2 * * * *') } // polls every 2 minutes
-  stages {
-    stage('Checkout') {
-      steps { git branch: 'main', url: 'https://github.com/ChrisGharfine/HW4' }
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/ChrisGharfine/HW4'
+            }
+        }
+
+        stage('Build in Minikube Docker') {
+            steps {
+                bat '''
+                call minikube docker-env --shell=cmd > docker_env.bat
+                call docker_env.bat
+                docker build -t mydjangoapp:latest ./mymovie
+                '''
+            }
+        }
+
+        stage('Deploy to Minikube') {
+            steps {
+                bat '''
+                kubectl apply -f ./mymovie/deployment.yaml
+                kubectl apply -f ./mymovie/service.yaml
+                kubectl rollout status deployment/django-deployment
+                '''
+            }
+        }
     }
-    stage('Build in Minikube Docker') {
-  steps {
-    bat '''
-    call minikube docker-env --shell=cmd > docker_env.bat
-    call docker_env.bat
-    docker build -t mydjangoapp:latest ./mymovie
-    '''
-  }
 }
-
-    }
-    stage('Deploy to Minikube') {
-      steps {
-        bat '''
-        kubectl apply -f deployment.yaml
-        kubectl rollout status deployment/django-deployment
-        '''
-      }
-    }
-  }
-}
-
-
