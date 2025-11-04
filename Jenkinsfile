@@ -3,7 +3,7 @@ pipeline {
   triggers { pollSCM('H/2 * * * *') } // polls every 2 minutes
   stages {
     stage('Checkout') {
-      steps { git branch: 'main', url: 'https://github.com/ChrisGharfine/HW4/tree/main/mymovie' }
+      steps { git branch: 'main', url: 'https://github.com/ChrisGharfine/HW4' }
     }
     stage('Build in Minikube Docker') {
       steps {
@@ -24,3 +24,4 @@ pipeline {
     }
   }
 }
+
